@@ -1,0 +1,147 @@
+{% extends 'web/base_template.html' %}
+{% block content %}
+{% load static %}
+
+<div class="profile-heading">
+<div class="container">
+<h1>Profile</h1>
+</div>
+</div>
+<section class="light-gray">
+	<form action="" method="post" enctype="multipart/form-data">
+
+<div style="display: none;">
+  {% for choice in form.Type %}
+  <label>{{ choice.tag }} {{ choice.choice_label }}</label>
+{% endfor %}
+</div>
+
+
+		{% csrf_token %}
+<div class="container">
+		<div class="row">
+		<div class="col-md-8">
+			  {% if messages %}
+    {% for message in messages %}
+        
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <div class="alert alert-danger alert-dismissible" style="text-align: left;">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+                   {% else %}
+                    <div class="alert alert-success alert-dismissible" style="text-align: left;">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+                     {% endif %}
+      
+    {% endfor %}
+    {% endif %}
+		</div>
+	</div>
+<div class="uploadbox-main">
+<div class="avatar-upload">
+        <div class="avatar-edit">
+            <input type='file' id="imageUpload_user" accept=".png, .jpg, .jpeg" />
+            <input type="hidden" name="user_image" id="user_image">
+            <label for="imageUpload_user"></label>
+        </div>
+        <div class="avatar-preview">
+            <div id="imagePreview" style="background-image: url({% if user_info.Image %} {{user_info.Image.url}}  {% else %} {% static 'web/images/user-male-icon.png' %} {% endif %});">
+            </div>
+        </div>
+    </div>
+	<h2>{{user_info.user.username}}</h2>
+	
+</div>
+
+<div class="row profile-form">
+<div class="col-md-6">
+<div class="form-group">
+<label>Name</label>
+{{form.name}}
+</div>
+</div>
+
+<div class="col-md-6">
+<div class="form-group">
+<label>Zip Code</label>
+{{form.Zip_Code}}
+</div>
+</div>
+
+
+<div class="col-md-6">
+<div class="form-group">
+<label>Email</label>
+<input type="text" readonly="" class="form-control"  value="{{user_info.user.email}}" />
+
+</div>
+</div>
+<div class="col-md-6">
+<div class="form-group">
+<label>Username</label>
+<input type="text" readonly="" class="form-control"  value="{{user_info.user.username}}" />
+
+</div>
+</div>
+<div class="col-md-12">
+<div class="form-group">
+<label>Phone Number</label>
+{{form.Contact_no}}
+</div>
+</div>
+
+<div class="col-md-12">
+<div class="savebox">
+<button type="submit" class="save_btn">Save</button>
+</div>
+</div>
+
+</div>
+
+
+</div>
+</form>
+</section>
+
+
+<div id="uploadimageModal_edit" class="modal" role="dialog">
+   <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Upload & Crop Image</h4>
+         </div>
+         <div class="modal-body">
+            <div class="row">
+               <div class="col-md-8 text-center">
+                  <div id="image_demo_edit" style="width:350px; margin-top:30px"></div>
+               </div>
+               <div class="col-md-4" style="padding-top:30px;">
+                  <br />
+                  <br />
+                  <br/>
+                  <div class="row">
+                     <div class="col-md-12 set_loader"></div>
+                  </div>
+                  <!--<button class="btn btn-success crop_image_edit">Crop Image</button>-->
+               </div>
+            </div>
+         </div>
+         <div class="modal-footer">
+             <button class="btn btn-success crop_image_edit">Save Image</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
+
+{% endblock %}
+
+
+
+ {% block script %}
+ <script src='{% static "web/cropme/croppie_user_image.js" %}' ></script>
+	  {% endblock %}

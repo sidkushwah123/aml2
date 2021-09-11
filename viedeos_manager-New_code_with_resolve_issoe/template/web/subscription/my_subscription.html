@@ -1,0 +1,264 @@
+{% extends 'web/base_template.html' %}
+{% block content %}
+{% load static %}
+<div class="our-collection">
+<div class="container">
+    <div class="d-flex" style="
+    justify-content: space-between;
+">
+
+<h1>Subscription</h1>
+
+
+</div>
+</div>
+
+</div>
+<section class="light-gray design-process-section" id="process-tab">
+<div class="container">
+<div class="row">
+<div class="col-md-12 text-center">
+<h2 class="membership">My Subscription </h2>
+</div>
+<!--
+<div class="col-md-12">
+<div class="tabs-pricing">
+<ul>
+<li class="active">Free</li>
+<li>Paid</li>
+</ul>
+</div>
+</div>-->
+
+<div class="col-md-10 pricing-left col-md-offset-1">
+
+<div class="pricing-box pricing-height">
+<h4>{{user_package.Package_name}}</h4>
+<div class="pricing-rate">
+<small>$</small>{{user_package.Package_name.Price}}<small>/Per Month</small>
+</div>
+{{user_package.Package_name.Description|safe}}
+<div class="row">
+<div class="col-md-6">
+<div class="halfbtn">
+
+</div>
+</div>
+
+<div class="col-md-6">
+<div class="halfbtn">
+  <a href="{% url 'subscription:subscription' %}"><button type="button" class="btn btn-lg login_btn width-50">Renew</button></a>
+<!-- <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-lg login_btn width-50">Check History</button> -->
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    </div>
+
+
+</section>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Payment History</h4>
+      </div>
+      <div class="modal-body">
+	  <div class="table-fixed-div">
+	  
+	  
+	  <table class="table table-striped header-fixed">
+  <thead>
+    <tr>
+      <th>Package name</th>
+        <th>Date</th>
+        <th>Payment</th>
+        <th>Expiry Date</th>
+        <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="filterable-cell">John</td>
+      <td class="filterable-cell">13 Jul 2020</td>
+      <td class="filterable-cell">$ 1700.00</td>
+      <td class="filterable-cell">20 Jul 2020</td>
+      <td class="filterable-cell"><a href="#" class="btn btn-primary btn-block text-center">Active</a></td>
+    </tr>
+	
+	<tr>
+      <td class="filterable-cell">John</td>
+      <td class="filterable-cell">13 Jul 2020</td>
+      <td class="filterable-cell">$ 1700.00</td>
+      <td class="filterable-cell">20 Jul 2020</td>
+      <td class="filterable-cell"><a href="#" class="btn btn-danger btn-block text-center">Inactive</a></td>
+    </tr>
+	 <tr>
+      <td class="filterable-cell">John</td>
+      <td class="filterable-cell">13 Jul 2020</td>
+      <td class="filterable-cell">$ 1700.00</td>
+      <td class="filterable-cell">20 Jul 2020</td>
+      <td class="filterable-cell"><a href="#" class="btn btn-primary btn-block text-center">Active</a></td>
+    </tr>
+	
+	<tr>
+      <td class="filterable-cell">John</td>
+      <td class="filterable-cell">13 Jul 2020</td>
+      <td class="filterable-cell">$ 1700.00</td>
+      <td class="filterable-cell">20 Jul 2020</td>
+      <td class="filterable-cell"><a href="#" class="btn btn-danger btn-block text-center">Inactive</a></td>
+    </tr>
+	 <tr>
+      <td class="filterable-cell">John</td>
+      <td class="filterable-cell">13 Jul 2020</td>
+      <td class="filterable-cell">$ 1700.00</td>
+      <td class="filterable-cell">20 Jul 2020</td>
+      <td class="filterable-cell"><a href="#" class="btn btn-primary btn-block text-center">Active</a></td>
+    </tr>
+	
+	<tr>
+      <td class="filterable-cell">John</td>
+      <td class="filterable-cell">13 Jul 2020</td>
+      <td class="filterable-cell">$ 1700.00</td>
+      <td class="filterable-cell">20 Jul 2020</td>
+      <td class="filterable-cell"><a href="#" class="btn btn-danger btn-block text-center">Inactive</a></td>
+    </tr>
+	 <tr>
+      <td class="filterable-cell">John</td>
+      <td class="filterable-cell">13 Jul 2020</td>
+      <td class="filterable-cell">$ 1700.00</td>
+      <td class="filterable-cell">20 Jul 2020</td>
+      <td class="filterable-cell"><a href="#" class="btn btn-primary btn-block text-center">Active</a></td>
+    </tr>
+	
+	<tr>
+      <td class="filterable-cell">John</td>
+      <td class="filterable-cell">13 Jul 2020</td>
+      <td class="filterable-cell">$ 1700.00</td>
+      <td class="filterable-cell">20 Jul 2020</td>
+      <td class="filterable-cell"><a href="#" class="btn btn-danger btn-block text-center">Inactive</a></td>
+    </tr>
+	 <tr>
+      <td class="filterable-cell">John</td>
+      <td class="filterable-cell">13 Jul 2020</td>
+      <td class="filterable-cell">$ 1700.00</td>
+      <td class="filterable-cell">20 Jul 2020</td>
+      <td class="filterable-cell"><a href="#" class="btn btn-primary btn-block text-center">Active</a></td>
+    </tr>
+	
+	<tr>
+      <td class="filterable-cell">John</td>
+      <td class="filterable-cell">13 Jul 2020</td>
+      <td class="filterable-cell">$ 1700.00</td>
+      <td class="filterable-cell">20 Jul 2020</td>
+      <td class="filterable-cell"><a href="#" class="btn btn-danger btn-block text-center">Inactive</a></td>
+    </tr>
+	 <tr>
+      <td class="filterable-cell">John</td>
+      <td class="filterable-cell">13 Jul 2020</td>
+      <td class="filterable-cell">$ 1700.00</td>
+      <td class="filterable-cell">20 Jul 2020</td>
+      <td class="filterable-cell"><a href="#" class="btn btn-primary btn-block text-center">Active</a></td>
+    </tr>
+	
+	<tr>
+      <td class="filterable-cell">John</td>
+      <td class="filterable-cell">13 Jul 2020</td>
+      <td class="filterable-cell">$ 1700.00</td>
+      <td class="filterable-cell">20 Jul 2020</td>
+      <td class="filterable-cell"><a href="#" class="btn btn-danger btn-block text-center">Inactive</a></td>
+    </tr>
+	 <tr>
+      <td class="filterable-cell">John</td>
+      <td class="filterable-cell">13 Jul 2020</td>
+      <td class="filterable-cell">$ 1700.00</td>
+      <td class="filterable-cell">20 Jul 2020</td>
+      <td class="filterable-cell"><a href="#" class="btn btn-primary btn-block text-center">Active</a></td>
+    </tr>
+	
+	<tr>
+      <td class="filterable-cell">John</td>
+      <td class="filterable-cell">13 Jul 2020</td>
+      <td class="filterable-cell">$ 1700.00</td>
+      <td class="filterable-cell">20 Jul 2020</td>
+      <td class="filterable-cell"><a href="#" class="btn btn-danger btn-block text-center">Inactive</a></td>
+    </tr>
+	 <tr>
+      <td class="filterable-cell">John</td>
+      <td class="filterable-cell">13 Jul 2020</td>
+      <td class="filterable-cell">$ 1700.00</td>
+      <td class="filterable-cell">20 Jul 2020</td>
+      <td class="filterable-cell"><a href="#" class="btn btn-primary btn-block text-center">Active</a></td>
+    </tr>
+	
+	<tr>
+      <td class="filterable-cell">John</td>
+      <td class="filterable-cell">13 Jul 2020</td>
+      <td class="filterable-cell">$ 1700.00</td>
+      <td class="filterable-cell">20 Jul 2020</td>
+      <td class="filterable-cell"><a href="#" class="btn btn-danger btn-block text-center">Inactive</a></td>
+    </tr>
+    
+  </tbody>
+</table>
+	  
+        
+  </div>
+      </div>
+      
+    </div>
+
+  </div>
+</div>
+
+<style>
+.header-fixed {
+    width: 100% 
+}
+
+.header-fixed > thead,
+.header-fixed > tbody,
+.header-fixed > thead > tr,
+.header-fixed > tbody > tr,
+.header-fixed > thead > tr > th,
+.header-fixed > tbody > tr > td {
+    display: block;
+}
+
+.header-fixed > tbody > tr:after,
+.header-fixed > thead > tr:after {
+    content: ' ';
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+
+.header-fixed > tbody {
+    overflow-y: auto;
+    height: 350px;
+}
+
+.header-fixed > tbody > tr > td,
+.header-fixed > thead > tr > th {
+    width: 20%;
+    float: left;
+}
+</style>
+<!-- ==================================================================== -->
+{% endblock %}
+
+
+
+{% block script %}
+
+{% endblock %}

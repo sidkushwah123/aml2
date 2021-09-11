@@ -1,0 +1,402 @@
+{% extends 'web/base_template.html' %}
+{% block content %}
+{% load static %}
+<div class="our-collection">
+<div class="container">
+    <div class="d-flex" style="
+    justify-content: space-between;
+">
+
+<h1>Subscription</h1>
+
+
+</div>
+</div>
+
+</div>
+<section class="light-gray design-process-section" id="process-tab">
+<div class="container">
+<div class="row">
+<div class="col-md-12 text-center">
+<h2 class="membership">Get Your Subscription </h2>
+</div>
+<!--
+<div class="col-md-12">
+<div class="tabs-pricing">
+<ul>
+<li class="active">Free</li>
+<li>Paid</li>
+</ul>
+</div>
+</div>-->
+<div class="row">
+{% if messages %}
+  <div class="col-md-12">
+    {% for message in messages %}
+        
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <div class="alert alert-danger alert-dismissible" style="text-align: left;">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+                   {% else %}
+                    <div class="alert alert-success alert-dismissible" style="text-align: left;">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+                     {% endif %}
+      
+    {% endfor %}
+   {% endif %} 
+</div>
+<div class="col-md-6 padding-right-0">
+
+
+<div class="pricing-box {% if get_user_current_plan.Package_name.Price < 1 %}pricing-height{% endif %}">
+<h4>{{get_package_info.0.Package_name}} <span style="color: #48c5b5;">{% if get_user_current_plan.Package_name.Price < 1 %}as Current PLAN{% endif %}</span></h4>
+<div class="pricing-rate">
+<small>$</small>{% if get_package_info.0.Price < 1  %}0{% else %}{{get_package_info.0.Price}}{% endif %} <small>/Per Month</small>
+</div>
+{{get_package_info.0.Description|safe}}
+<div class="halfbtn">
+
+	{% if user.username == '' %}
+<a href="{% url 'account:login' %}"> <button type="button" class="btn btn-lg login_btn width-50 " >Get Now</button></a>
+{% else %}	
+
+{% if get_user_current_plan %}
+
+{% if get_user_current_plan.Package_name.Price < 1 %}
+<!-- <button type="button" class="btn btn-lg login_btn width-50 do_payment" data-url_set="{% url 'subscription:add_package' get_package_info.0.id %}">Get Now</button> -->
+{% endif %}
+
+{% else %}
+<button type="button" class="btn btn-lg login_btn width-50 do_payment" data-url_set="{% url 'subscription:add_package' get_package_info.0.id %}">Get Now</button>
+{% endif %}
+
+
+{% endif %}
+
+</div>
+
+</div>
+
+
+</div>
+
+<div class="col-md-6 pricing-left">
+
+<div class="pricing-box {% if get_user_current_plan.Package_name.Price > 0 %}pricing-height{% endif %}">
+
+{% if get_user_current_plan.Package_name.Price > 0 %}
+  <div class="plan_date">
+  	<div class="plan_start">
+  		Plan Start Date: <span class="label label-success">{{get_user_current_plan.Start_date.date}}</span> <br>
+  	</div>
+  	<!-- <div class="plan_end">
+  		Plan End Date: <span class="label label-danger">{{get_user_current_plan.Expayer_date.date}}</span> 
+  	</div> -->
+  </div>
+  {% endif %}
+
+<h4>{{get_package_info.1.Package_name}} <span style="color: #48c5b5;">{% if get_user_current_plan.Package_name.Price > 0 %}as Current PLAN{% endif %}</span></h4>
+<div class="pricing-rate">
+<small>$</small>{{get_package_info.1.Price}}<small>/Per Month</small>
+</div>
+
+{{get_package_info.1.Description|safe}}
+<div class="halfbtn">
+{% if user.username == '' %}
+<a href="{% url 'account:login' %}"><button type="button" class="btn btn-lg login_btn width-50 " >Get Now</button></a>
+{% else %}	
+
+<!-- {% widthratio get_package_info.1.Price 1 3 %} -->
+
+
+{% if get_user_current_plan %}
+{% if get_user_current_plan.Package_name.Price < 1 %}
+<button type="button" class="btn btn-lg login_btn  do_payment" data-url_set="{% url 'subscription:add_package' get_package_info.1.id %}">{% if get_user_current_plan.Package_name.Price < 1 %}Upgrade now {% else %} Get Now {% endif %}</button>
+ 
+ {% endif %}
+
+
+{% else %}
+<button type="button" class="btn btn-lg login_btn  do_payment" data-url_set="{% url 'subscription:add_package' get_package_info.1.id %}">Get Now</button>
+{% endif %}
+
+{% endif %}
+</div>
+
+</div>
+</div>
+
+</div>
+    </div>
+
+
+</section>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-sm">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Payment</h4>
+      </div>
+      <div class="modal-body">
+       <div id="paypal-button-container"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<div id="myModal_couponCode" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-sm">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Payment</h4>
+      </div>
+      <div class="modal-body">
+       <div class="row">
+       	<div class="col-md-12">
+       		<input type="hidden" id="subcription_amount" value="0.0">
+       		<input type="hidden" id="descount_amount" value="0.0">
+       		<input type="hidden" id="subcription_order_id" value="0.0">
+       		<table class="table table-bordered">
+       			<tr>
+       				<th colspan="2">Payments <span id="error_message" style="color:red;"></span></th>
+       			</tr>
+       			<tr>
+       				<th>Amount</th>
+       				<th>$<span id="order_payment">$0.0</span></th>
+       			</tr>
+       			<tr>
+       				<th colspan="2">
+                <form action="#" method="" id="payment_descount_form">
+                  <input type="hidden" name="" id="coupon_code_url" value="{% url 'subscription:check_coupon' %}">
+                <div class="input-group">
+                  <input type="text" required="" class="form-control" id="descount_code" placeholder="Enter descount code">
+                  <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit">
+                      <i class="fa fa-send"></i>
+                    </button>
+                  </div>
+                </div>
+       				</th>
+       			</tr>
+       			<tr>
+       				<th colspan="2">
+       					<button type="button" class="btn btn-lg login_btn do_payment_with_out_coupon">No Coupon</button>
+       				</th>
+       			</tr>
+       		</table>
+       	</div>
+       </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- ==================================================================== -->
+{% endblock %}
+
+
+
+{% block script %}
+ <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://www.paypal.com/sdk/js?client-id={{paypal_id}}&currency=USD&disable-funding=credit"></script>
+
+  <script>
+
+
+
+$(document).ready(function(){
+
+$( "#payment_descount_form" ).submit(function( event ) {
+$("#error_message").text('');  
+
+event.preventDefault();
+var coupon_code = $("#descount_code").val();
+var order_id = $("#subcription_order_id").val();
+var coupon_code_url = $("#coupon_code_url").val();
+$.ajax({
+   method:"POST",
+   url:coupon_code_url,
+   data:{"order_id":order_id,"coupon_code":coupon_code},
+   datraType:"json",
+   success:function(data)
+   {
+    if(data.status=="0")
+    {
+    $("#error_message").text(data.message);  
+    }
+    else
+    {
+      console.log(data)  
+      $("#myModal_couponCode").modal('hide');
+      $("#paypal-button-container").empty();
+      do_paymeny_with_desci(data.data.order_id,data.data.amount_after_descount);
+    }
+    
+    
+   }
+ });
+});
+
+}); 
+
+
+$(document).on("click",".do_payment",function(){
+
+var url_get =  $(this).data("url_set");
+
+// alert(url_get);
+$.ajax({
+   method:"GET",
+   url:url_get,
+   datraType:"json",
+   success:function(data)
+   {
+   	if(data.data.amount>0)
+   	{
+
+	$("#order_payment").text(data.data.amount);
+	$("#subcription_amount").val(data.data.amount);
+	$("#subcription_order_id").val(data.data.order_id);
+   	$("#myModal_couponCode").modal('show');
+   	}
+   	else
+   	{
+      swal("Subscription successfull.", {
+                  icon: "success",
+                    }).then((value) => {
+                   window.location.href = "{{BASE_URL}}dashboard/";
+                  });
+   	}
+   	
+   }
+});
+
+
+  
+});
+
+
+$(document).on('click','.do_payment_with_out_coupon',function(){
+
+var amount = $("#subcription_amount").val();
+var order_id = $("#subcription_order_id").val();
+var descount_amount = $("#descount_amount").val();
+
+var total_amount = parseFloat(amount)-parseFloat(descount_amount);
+$("#myModal_couponCode").modal('hide');
+$("#paypal-button-container").empty();
+do_paymeny_with_desci(order_id,total_amount);
+
+});
+
+
+
+function do_paymeny_with_desci(order_id,order_amount)
+{
+	
+	var order_id =  order_id;
+	var order_amount =  order_amount;
+      $("#myModal").modal('show');
+  	var total = parseFloat(order_amount);
+        // Render the PayPal button into #paypal-button-container
+        paypal.Buttons({
+        	style:{
+             color:'blue',
+        	},
+
+            // Set up the transaction
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: total
+                        }
+                    }]
+                });
+            },
+            // Finalize the transaction
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    // Show a success message to the buyer
+                    console.log("============");
+                    console.log(order_id);
+                    console.log(details.id);
+                    console.log("============");
+                 
+                    $.ajax({
+					   method:"GET",
+					   url:"{{BASE_URL}}subscription/update-package/"+order_id+"/"+details.id,
+					   datraType:"json",
+					   success:function(data)
+					   {
+					   	console.log("=====");
+                         console.log(data);
+                         console.log("=====");
+                         if(data.status == "0")
+                           {
+                           	swal(data.message, {
+				                  icon: "error",
+				                    });
+                           }
+                           else
+                           {
+                           	
+                      //      	swal(data.message, {
+				                  // icon: "success",
+				                  //   });
+                           	 swal(data.message, {
+			                  icon: "success",
+			                    }).then((value) => {
+			                    	// /alert("jhdfvff");
+			                   window.location.href = "{{BASE_URL}}dashboard/";
+			                  });
+                           
+                           }
+
+
+                            
+					   }
+					});
+
+
+                   // alert('Transaction completed by ' + details.payer.name.given_name + '!');
+                  $("#myModal").modal('hide');
+
+                  swal('Transaction completed by ' + details.payer.name.given_name + '!', {
+                  icon: "success",
+                    }).then((value) => {
+                    	
+                   window.location.href = "{{BASE_URL}}dashboard/";
+                  });
+                  // 
+                });
+            }
+
+
+        }).render('#paypal-button-container');
+}
+  	
+    </script>
+
+{% endblock %}

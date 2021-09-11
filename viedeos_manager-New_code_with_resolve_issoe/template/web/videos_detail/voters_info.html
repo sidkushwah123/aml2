@@ -1,0 +1,46 @@
+{% load static %}
+<div class="usercommentbox">
+<div class="borderbox">
+<div class="header-voted bolder">
+<div class="usern" style="align-items: end;">
+{% if get_vs_user_data.Image  %}
+<img class="detailing" src='{{get_vs_user_data.Image.url}}'>
+  {% else %}
+  {{"menu"|show_logo}}
+<!-- <img class="detailing" src='{% static "web/dummyUser.jpg" %}'> -->
+{% endif %}	
+
+<div class="macik"><h1>{{get_vs_user_data}}<sup style="
+    color: red;"><a href="{{get_vs_user_data.Site_Link}}" target="_blank">({{get_vs_user_data.Other_Type}})</a></sup></h1>
+<p>{{get_reating.0.Created_date}}</p>
+<p class="gettext">{{get_coment.Comment}}</p>
+</div>
+</div>
+<div class="view_votes">
+<div class="text-center">
+
+	{% if get_reating %}
+	{% for items in get_reating %}
+    <div class="vote-uservbox">
+        <div class="progressbar">
+            <div class="second circle" data-percent="{{items.Reating|get_value_in_ten_time}}"><canvas class="ca" width="{{items.Reating|get_value_in_ten_time}}" height="{{items.Reating|get_value_in_ten_time}}"></canvas>
+              <strong>{{items.Reating|get_value_in_ten_time}}</strong>
+              <span>{{items.Reating_attrbute}}</span>
+            </div>
+            </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+   <div class="vote-uservbox">
+        <div class="progressbar">
+            <div class="second circle" data-percent="{% get_one_user_overview get_vs_user_data get_reating.0.Video %}"><canvas class="ca" width="{% get_one_user_overview get_vs_user_data get_reating.0.Video %}" height="{% get_one_user_overview get_vs_user_data get_reating.0.Video %}"></canvas>
+              <strong>{% get_one_user_overview get_vs_user_data get_reating.0.Video %}</strong>
+              <span><b>Overall</b></span>
+            </div>
+            </div>
+    </div>    
+  </div>
+</div>
+</div>
+</div>
+</div>

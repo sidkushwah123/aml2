@@ -1,0 +1,30 @@
+{% load static %}
+<div class="col-md-4">
+  <a href="{% url 'videos_detail:videos_detail' video.Videos_id  video.Videos_Slug %}">
+
+  	 <div class="starbox"><i class="fa fa-star"></i>{{video|get_average_of_reating|slice:"0:10"}}</div>
+<div class="product_box">
+<div class="cat_box">
+
+{% if video.Video_thumbnail %}
+<img src='{{video.Video_thumbnail.url}}' >
+{% else %}
+<img src='{% static "web/images/singer-2.png" %}' >
+{% endif %}
+</div>
+<div class="cat-text">
+<div class="singer_btn">
+<span>{{video.Categoryes}}</span>
+</div>
+<h4>{{video.Videos_Title|slice:"0:50"}} <br> By {{video.Created_By.name|slice:"0:8"}}{% if video.Created_By.Other_Type %}
+  <sup style="
+    color: red;"><a href="{{video.Created_By.Site_Link}}" target="_blank">({{video.Created_By.Other_Type}})</a></sup>
+{% endif %}</h4>
+
+<p>{{video.Created_date}}</p>
+</div>
+
+
+</div>
+</a>
+</div>

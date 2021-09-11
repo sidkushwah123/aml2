@@ -1,0 +1,383 @@
+{% extends 'web/base_template.html' %}
+{% block content %}
+{% load static %}
+
+<div class="banner">
+<div class="vodeoplay">
+    
+<img style="width: 100%; height: 550px;" src='{% if get_data_of_home_page.Video_Of_The_Day_Thumbnail %} {{get_data_of_home_page.Video_Of_The_Day_Thumbnail.url}} {% else %}{% static "web/images/banner.jpg" %} {% endif %}' />
+
+</div>
+<div class="bannertext">
+    <a href="{% url 'videos_detail:videos_detail' get_data_of_home_page.Video_Of_The_Day.Videos_id  get_data_of_home_page.Video_Of_The_Day.Videos_Slug %}" style="display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%; left:0px; top:0px;"></a>
+<div class="container">
+<div class="box-breadcrumb">
+                <div class="box-left">
+                    <strong class="parent">
+                        <a href="#">Video</a>
+                    </strong>
+                    <span class="text-x-thin">Of the day &nbsp; {{get_data_of_home_page.Video_Of_The_Day.Created_date}}</span>
+                </div>
+                
+            </div>
+			
+			<div class="box-content">
+			
+			<div class="box-info">
+                <div class="row">
+                    <h2 class="heading-large"><a href="{% url 'videos_detail:videos_detail' get_data_of_home_page.Video_Of_The_Day.Videos_id  get_data_of_home_page.Video_Of_The_Day.Videos_Slug %}">{{get_data_of_home_page.Video_Of_The_Day.Videos_Title}}</a></h2>
+                </div>
+                <div class="row">
+                    <div class="by">
+                        by <strong>
+
+<a href="{% url 'videos_detail:videos_detail' get_data_of_home_page.Video_Of_The_Day.Videos_id  get_data_of_home_page.Video_Of_The_Day.Videos_Slug %}">{{get_data_of_home_page.Video_Of_The_Day.Created_By}}</a>
+{% if get_data_of_home_page.Video_Of_The_Day.Created_By.Other_Type %}
+<sup style="
+    color: red;"><a href="{{get_data_of_home_page.Video_Of_The_Day.Created_By.Site_Link}}" target="_blank">({{get_data_of_home_page.Video_Of_The_Day.Created_By.Other_Type}})</a></sup>
+    {% endif %}
+</strong> 
+                    </div>
+                </div>
+                {% if get_reating %}
+                <div class="box-notesite js-notes">
+                    <ul>
+                       
+
+                        {% for item in  get_reating.Readint_attribute.all %}
+                        <li class="circle-note-progress style-design" data-note="7.41">
+                            <div class="circle">
+                                <svg width="84" height="84">
+                                    <circle r="38" cy="41" cx="41"></circle>
+                                    <circle r="38" cy="41" cx="41" stroke-linejoin="round" stroke-linecap="round" class="circle-progress" style="animation: 900ms ease 0s 1 normal forwards running donut-show-0;"></circle>
+                                </svg>
+                                <div class="percent">
+                                    <span class="int">{{item.Reating_Range}}</span><span class="dec">.00</span>
+                                </div>
+                            </div>
+                            <div class="legend">{{item}}</div>
+                        </li>
+                       {% endfor %}
+                     </ul>                                                                                                                                          
+                </div>
+				{% endif %}
+				
+				
+            </div>
+			</div>
+			
+			
+			
+			
+</div>
+
+<div class="box-bl">
+                    <a href="{% url 'videos_detail:videos_detail' get_data_of_home_page.Video_Of_The_Day.Videos_id  get_data_of_home_page.Video_Of_The_Day.Videos_Slug %}" class="js-visit-item bt-default green-fill" target="_blank" rel="noopener nofollow">Watch</a>
+
+            </div>
+			<div class="box-br">
+			<a href="{% url 'videos_detail:videos_detail' get_data_of_home_page.Video_Of_The_Day.Videos_id  get_data_of_home_page.Video_Of_The_Day.Videos_Slug %}" class="bt-default"><i class="fa fa-hand-o-right"></i>&nbsp; Rate Now</a>
+			</div>
+</div>
+
+</div>
+
+{% if get_data_of_home_page.Session_2_Title %}
+<section class="bg-gray padding-100">
+<div class="container">
+<div class="main-music">
+<div class="musicbox">
+<img src='{% if get_data_of_home_page.Session_2_Image %} {{get_data_of_home_page.Session_2_Image.url}} {% else %}{% static "web/images/music.jpg" %}{% endif %}'  style="height: 388px;" />
+</div>
+<div class="music-content">
+<h2>{{get_data_of_home_page.Session_2_Title}}</h2>
+<p>{{get_data_of_home_page.Session_2_description}}</p>
+</div>
+</div>
+</div>
+</section>
+
+{% endif %}
+
+<section class="videosection">
+<div class="container">
+<div class="row">
+<div class="col-md-4">
+<div class="videobox">
+<img src='{% if get_data_of_home_page.Session_3_box_1_Image %} {{get_data_of_home_page.Session_3_box_1_Image.url}} {% else %}{% static "web/images/video-1.jpg" %}{% endif %}'/>
+<div class="box_text">
+<div class="criclebox">{{count_users|add:get_data_of_home_page.Session_3_box_1_Counter_start}}+</div>
+<div class="textbox">
+<h2>{{get_data_of_home_page.Session_3_box_1_Title}}</h2>
+<p>{{get_data_of_home_page.Session_3_box_1_description}}</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="videobox">
+<img src='{% if get_data_of_home_page.Session_3_box_2_Image %} {{get_data_of_home_page.Session_3_box_2_Image.url}} {% else %}{% static "web/images/video-3.jpg" %}{% endif %}' />
+<div class="box_text">
+<div class="criclebox">{{voters|add:get_data_of_home_page.Session_3_box_1_Counter_start}}+</div>
+<div class="textbox">
+<h2>{{get_data_of_home_page.Session_3_box_2_Title}}</h2>
+<p>{{get_data_of_home_page.Session_3_box_2_description}}</p>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="videobox">
+<img src='{% if get_data_of_home_page.Session_3_box_3_Image %} {{get_data_of_home_page.Session_3_box_3_Image.url}} {% else %}{% static "web/images/video-2.jpg" %}{% endif %}' />
+<div class="box_text">
+<div class="criclebox">{{total_video|add:get_data_of_home_page.Session_3_box_1_Counter_start}}+</div>
+<div class="textbox">
+<h2>{{get_data_of_home_page.Session_3_box_3_Title}}</h2>
+<p>{{get_data_of_home_page.Session_3_box_3_description}}</p>
+</div>
+</div>
+</div>
+</div>
+
+
+</div>
+</div>
+</section>
+
+<section class="videoweek bg-gray">
+<div class="container">
+
+{% if get_data_of_home_page.Videos_Of_The_Week.all %}
+<div class="title-heading text-center">
+<h2>Videos <span>Of the Week</span></h2>
+</div>
+<div class="row top-50">
+
+
+{% for item in get_data_of_home_page.Videos_Of_The_Week.all %}
+<div class="col-md-4">
+<div class="videoweek_box">
+<div class="weeboveimg">
+<div class="newtag"><img src='{% static "web/images/new.png" %}'  /></div>
+
+<img class="dsp_set_height" src='{% if item.Video_thumbnail %} {{item.Video_thumbnail.url}} {% else %}{% static "web/images/a.png" %} {% endif %}'  />
+<a href="{% url 'videos_detail:videos_detail' item.Videos_id  item.Videos_Slug %}" target="_blank">
+<div class="overlay_div">
+<div class="box-content">
+			
+
+			<div class="box-info">
+                
+                
+                <div class="box-notesite js-notes">
+                    
+
+
+                    <ul>
+                        {{item|get_reating_data}}
+                        </ul>
+                        
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                </div>	
+            </div>
+        
+			</div>
+</div>
+</a>
+
+</div>
+
+<div class="weektext">
+
+<h3> {{item.Videos_Title}}</h3>
+<div class="location">
+<div class="loctionview">
+By {{item.Created_By}}<sup style="
+    color: red;"><a href="{{get_vs_user_data.Site_Link}}" target="_blank">({{item.Created_By.Other_Type}})</a></sup> <span></span>
+</div>
+<div class="loction_date">{{item.Created_date}}</div>
+</div>
+
+<div class="location">
+<div class="loctionview bydigi">
+BY <span><a href="{% url 'videos_detail:videos_detail' item.Videos_id  item.Videos_Slug %}" target="_blank">{{item.Created_By.name|slice:"0:20"}}...</a></span>
+</div>
+<!-- <div class="btn_new">
+<a href="#" class="yellow_btn">HM</a>
+<a href="#" class="Puple_btn">DEV</a>
+<a href="#" class="solid_btn">SOLD</a>
+</div> -->
+</div>
+
+
+</div>
+
+</div>
+</div>
+
+{% endfor %}
+
+
+
+
+</div>
+{% endif %}
+
+
+
+<!-- ================================================================================================================================= -->
+{% if get_letest_video %}
+<div class="title-heading text-center spacebox">
+<h2><span>New</span> Videos</h2>
+</div>
+
+<div class="row top-50">
+
+
+{% for item in get_letest_video %}
+<div class="col-md-4">
+
+<div class="videoweek_box">
+<a href="{% url 'videos_detail:videos_detail' item.Videos_id  item.Videos_Slug %}" target="_blank">
+<!-- <div class="starbox"><i class="fa fa-star"></i>{{item|get_average_of_reating|slice:"0:10"}}</div> -->
+<div class="rollover">
+<img class="dsp_set_height" src='{% if item.Video_thumbnail %} {{item.Video_thumbnail.url}} {% else %}{% static "web/images/g.png" %} {% endif %}' />
+</div>
+</a>
+<div class="weektext">
+<a href="{% url 'videos_detail:videos_detail' item.Videos_id  item.Videos_Slug %}" target="_blank">
+<h3>{{item.Videos_Title|slice:"0:50"}}</h3>
+<div class="location">
+
+<div class="loction_date">{{item.Created_date}}</div>
+</div>
+</a>
+<div class="location">
+<div class="loctionview bydigi">
+BY <span><a href="{% url 'videos_detail:videos_detail' item.Videos_id  item.Videos_Slug %}"target="_blank" >{{item.Created_By.name|slice:"0:20"}}...</a>{% if item.Created_By.Other_Type %}
+  <sup style="
+    color: red;"><a href="{{item.Created_By.Site_Link}}" target="_blank">({{item.Created_By.Other_Type}})</a></sup>
+{% endif %}</span>
+</div>
+<!-- <div class="btn_new">
+<a href="#" class="yellow_btn">HM</a>
+<a href="#" class="Puple_btn">DEV</a>
+<a href="#" class="solid_btn">SOLD</a>
+</div> -->
+</div>
+
+
+</div>
+
+
+
+</div>
+</div>
+
+{% endfor %}
+
+
+
+
+</div>
+{% endif %}
+
+
+
+
+
+
+<!-- ================================================================================================================================= -->
+{% if get_top_reated %}
+<div class="title-heading text-center spacebox">
+<h2><span>Top Rated</span> Videos</h2>
+</div>
+
+
+<div class="row top-50">
+
+
+{% for item in get_top_reated %}
+<div class="col-md-4">
+
+<div class="videoweek_box">
+<a href="{% url 'videos_detail:videos_detail' item.Videos_id  item.Videos_Slug %}" target="_blank">
+<!-- <div class="starbox"><i class="fa fa-star"></i>{{item|get_average_of_reating|slice:"0:10"}}</div> -->
+<div class="rollover">
+<img class="dsp_set_height" src='{% if item.Video_thumbnail %} {{item.Video_thumbnail.url}} {% else %}{% static "web/images/g.png" %} {% endif %}' />
+</div>
+</a>
+<div class="weektext">
+<a href="{% url 'videos_detail:videos_detail' item.Videos_id  item.Videos_Slug %}" target="_blank">
+<h3>{{item.Videos_Title|slice:"0:50"}}</h3>
+<div class="location">
+
+<div class="loction_date">{{item.Created_date}}</div>
+</div>
+</a>
+
+<div class="location">
+<div class="loctionview bydigi">
+BY <span><a href="{% url 'videos_detail:videos_detail' item.Videos_id  item.Videos_Slug %}">{{item.Created_By.name|slice:"0:25"}}...</a>
+ {% if item.Created_By.Other_Type %}
+  <sup style="
+    color: red;"><a href="{{item.Created_By.Site_Link}}" target="_blank">({{item.Created_By.Other_Type}})</a></sup>
+{% endif %}</span>
+</div>
+<!-- <div class="btn_new">
+<a href="#" class="yellow_btn">HM</a>
+<a href="#" class="Puple_btn">DEV</a>
+<a href="#" class="solid_btn">SOLD</a>
+</div> -->
+</div>
+
+
+</div>
+
+
+
+</div>
+</div>
+
+{% endfor %}
+
+
+
+
+</div>
+{% endif %}
+
+
+
+
+
+
+
+</div>
+</section>
+{% if get_top_categoryes %}
+<section>
+<div class="container">
+<div class="title-heading text-center">
+<h2><span>Top </span> Categories</h2>
+</div>
+
+<div class="row top-50">
+{% for item in get_top_categoryes %}
+{{item|get_category_data}}
+{% endfor %}
+
+</div>
+
+</div>
+
+
+
+</section>
+{% endif %}
+
+{% endblock %}

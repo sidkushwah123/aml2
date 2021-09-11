@@ -1,0 +1,20 @@
+{% if get_reating %}
+
+{% for item in get_reating.Readint_attribute.all|slice:":4" %}
+
+<li class="circle-note-progress style-design" data-note="7.41">
+                            <div class="circle">
+                                <svg width="60" height="60">
+                                    <circle r="25" cy="27" cx="27"></circle>
+                                    <circle r="25" cy="27" cx="27" stroke-linejoin="round" stroke-linecap="round" class="circle-progress" style="animation: 900ms ease 0s 1 normal forwards running donut-show-0;"></circle>
+                                </svg>
+                                <div class="percent">
+                                    <span class="int">{{item.Reating_Range}}</span>
+                                </div>
+                            </div>
+                            <div class="legend">{{item.Title|slice:"0:5"}}</div>
+                        </li>
+                 
+
+    {% endfor %}
+{% endif %}

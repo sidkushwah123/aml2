@@ -1,0 +1,36 @@
+{% load static %}
+{% if object_list %}
+{% for item in object_list %}
+
+
+<div class="col-md-4">
+  <a href="{% url 'videos_detail:videos_detail' item.Videos_id  item.Videos_Slug %}">
+<div class="product_box">
+<div class="cat_box">
+
+{% if item.Video_thumbnail %}
+<img src='{{item.Video_thumbnail.url}}' >
+{% else %}
+<img src='{% static "web/images/singer-2.png" %}' >
+{% endif %}
+</div>
+<div class="cat-text">
+<div class="singer_btn">
+<span>{{item.Categoryes}}</span>
+</div>
+<h4>{{item.Videos_Title|slice:"0:10"}} <br>From {{item.Country}}</h4>
+
+<p>{{item.Created_date}}</p>
+</div>
+
+
+</div>
+</a>
+</div>
+
+
+{% endfor %}
+{% else %}
+<h3>No results found</h3>
+<img src='{% static "web/No-results-found.jpg" %}'>
+{% endif %}

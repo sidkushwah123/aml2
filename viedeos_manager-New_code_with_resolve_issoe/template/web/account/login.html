@@ -1,0 +1,111 @@
+{% extends 'web/base_template.html' %}
+{% block content %}
+{% load static %}
+<style type="text/css">
+ #id_username
+ {
+    text-transform: lowercase;
+  }
+</style>
+
+<section class="login_bg">
+	<div class="loginAG">
+	<div class="login_width">
+	<div class="leftside-login">
+  {% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+           <div class="alert alert-danger alert-dismissible" style="text-align: left;">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{ error|escape }}</strong> 
+                    </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger alert-dismissible" style="text-align: left;">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{ error|escape }}</strong> 
+                    </div>
+
+    {% endfor %}
+{% else %}
+
+
+	  {% if messages %}
+    {% for message in messages %}
+        
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <div class="alert alert-danger alert-dismissible" style="text-align: left;">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+                   {% else %}
+                    <div class="alert alert-success alert-dismissible" style="text-align: left;">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+                     {% endif %}
+      
+    {% endfor %}
+
+    {% endif %}
+
+{% endif %}
+
+	<span>
+	{{"menu"|show_logo}}
+	</span>
+	<div class="login-logo">
+	<h1><a href="{% url 'home:home' %}">{{"menu"|show_project_title}}</span></a></h1>
+	</div>
+
+	
+	</div>
+<form method="post" action="">
+	  {% csrf_token %}
+	<div class="rightside">
+	<h1>Log IN</h1>
+	<div class="form-group">
+	<label>Username</label>
+	 {{form.username}}
+	</div>
+	<div class="form-group">
+	<label>Password</label>
+	 {{form.password}}
+	</div>
+
+	<!-- <div class="form-group">
+	<label><input type="checkbox"/> Remember</label>
+
+	</div> -->
+
+	<div class="form-group">
+	<a href="{% url 'account:password_reset' %}" class="forgot">Forgot Your password?</a>
+
+	</div>
+
+	<div class="form-group">
+	<button type="submit" class="login_btn">Log in</button>
+
+	</div>
+
+	<div class="account"> You don't have as account? <br><a href="{% url 'account:registration' %}" class="reg">Register Now</a></div>
+
+	</div>
+</form>
+	</div>
+	</div>
+	</section>
+
+	{% endblock %}
+  {% block script %}
+	<script type="text/javascript">
+		$(document).ready(function(){
+		$("#id_username").attr("placeholder", "Username");
+		$("#id_password").attr("placeholder", "Password");
+     $("input").each(function(){
+     	$(this).addClass('form-control');
+     });
+	});
+	</script>
+	  {% endblock %}

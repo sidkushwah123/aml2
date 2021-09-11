@@ -1,0 +1,38 @@
+{% extends 'web/base_template.html' %}
+
+{% block cssstyle %}
+
+<style type="text/css">
+    
+{% if page_content.Background_Image %}
+    .about_bg {
+    background: url({{page_content.Background_Image.url}}) no-repeat center top;
+}
+{% else %}
+    .about_bg {
+    background: url(../images/about_banner.jpg) no-repeat center top;
+}
+{% endif %}
+</style>
+   {% endblock %}
+
+{% block content %}
+{% load static %}
+
+
+
+<div class="heading-section">
+<h1>{{page_content.Title}}</h1>
+</div>
+<div class="about_bg">
+<div class="container">
+<div class="about_text">
+{{page_content.Description}}
+</div>
+</div>
+</div>
+
+{{page_content.Page_content   | safe }}
+
+
+{% endblock %}

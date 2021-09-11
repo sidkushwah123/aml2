@@ -1,0 +1,154 @@
+{% extends 'web/base_template.html' %}
+{% block content %}
+{% load static %}
+
+<style type="text/css">
+ #id_username
+ {
+    text-transform: lowercase;
+  }
+</style>
+<section class="login_bg">
+<div class="loginAG">
+<div class="login_width">
+<div class="leftside-login">
+
+
+
+  {% if messages %}
+    {% for message in messages %}
+        
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <div class="alert alert-danger alert-dismissible" style="text-align: left;">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a> 
+                      Warning!<br>
+                      {% for field in vs_user_form %} 
+                      {% if field.errors %}
+                       {{field.label}}
+                       {% endif %}
+                        {% for error in field.errors %}
+                        <div class="alert alert-danger">
+                          <strong>{{ error|escape }}</strong>
+                        </div>
+                      {% endfor %}
+                      {% endfor %} 
+
+                      {% for field in d_user_form %} 
+                       
+                        {% if field.label == 'Username' %}
+                         {% if field.errors %}
+                       {{field.label}}
+                       <div class="alert alert-danger">
+                          <strong>user name not available</strong>
+                        </div>
+                       {% endif %}
+                        
+                       {% else %}
+                       {% if field.errors %}
+                       {{field.label}}
+                       {% endif %}
+                        {% for error in field.errors %}
+                        <div class="alert alert-danger">
+                          <strong>{{ error|escape }}</strong>
+                        </div>
+                      {% endfor %}
+                       {% endif %}
+
+
+                       
+                      
+
+
+                      {% endfor %}
+                    </div>
+                   {% else %}
+                    <div class="alert alert-success alert-dismissible" style="text-align: left;">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+                     {% endif %}
+      
+    {% endfor %}
+
+    {% endif %}
+
+<span>
+
+{{"menu"|show_logo}}
+</span>
+<div class="login-logo">
+<h1><a href="{% url 'home:home' %}">{{"menu"|show_project_title}}</span></a></h1>
+</div>
+</div>
+
+<div class="rightside project_login">
+<h1>Register</h1>
+<form onsubmit="doSomething();" action="" method="POST" id="sign_up_data">
+	{% csrf_token %}
+
+
+ 
+ 
+<div class="project_redio">
+{% for choice in vs_user_form.Type %}
+  <label>{{ choice.tag }} {{ choice.choice_label }}</label>
+{% endfor %}
+
+</div>
+<div class="form-group">
+{{vs_user_form.name}}
+</div>
+<div class="form-group">
+
+{{d_user_form.username}}
+</div>
+<div class="form-group">
+
+{{d_user_form.email}}
+</div>
+
+<div class="row">
+<div class="col-md-6">
+<div class="form-group">
+
+{{vs_user_form.Contact_no}}
+</div>
+</div>
+<div class="col-md-6">
+<div class="form-group">
+
+{{vs_user_form.Zip_Code}}
+</div>
+</div>
+
+</div>
+
+<div class="form-group">
+{{d_user_form.password1}}
+
+</div>
+<div class="form-group">
+{{d_user_form.password2}}
+</div>
+
+<div class="form-group">
+<button type="submit" class="login_btn " id="set_sign_up_button">Register</button></a>
+
+</div>
+</form>
+<div class="account"> Already Have a account? <a href="{% url 'account:login' %}" class="reg">Login Now</a></div>
+
+</div>
+
+</div>
+</div>
+</section>
+
+
+
+
+
+
+{% endblock %}
+
+     

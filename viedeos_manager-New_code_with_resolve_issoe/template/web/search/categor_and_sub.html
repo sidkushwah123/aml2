@@ -1,0 +1,15 @@
+
+
+{% if cate_count == 0 %}
+{% else %}
+<li {% if search_cate == items.Slug %}class="open"{% endif %}>
+    <div  class="link {% if search_cate == items.Slug %}set_clas_for_category_set {% endif %}"><i class="fa fa fa-plus"></i> <a href="{% url 'search:search' %}?category={{items.Slug}}"  >{{items}} </a> <span class="text-secoundry">({{cate_count}})</span></div>
+     {% if sub_cate %}
+    <ul class="submenu" {% if search_cate == items.Slug %}style="display: block;"{% endif %}>
+      {% for item in sub_cate %}
+      <li {% if search_sub_cate == item.Slug %}class="set_clas_for_category_set" {% endif %} ><a href="{% url 'search:search' %}?category={{items.Slug}}&sub-categorye={{item.Slug}}">{{item}}</a></li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </li>
+  {% endif %}

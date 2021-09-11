@@ -1,0 +1,7 @@
+{% if get_cub_cate %}
+<option value="">Slect Sub Categoryes</option>
+{% for item in get_cub_cate %}
+<option value="{{item.id}}">{{item}}</option>
+{% endfor %}
+
+{% endif %}

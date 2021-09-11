@@ -1,0 +1,31 @@
+{% if dummt_data == 'menu' %}
+
+{% if get_data_of_home_page.Facebook_Page_Link %}
+<li><a href="{{get_data_of_home_page.Facebook_Page_Link}}" target="_blank"><i class="fa fa-facebook"></i></a></li>
+{% endif %}
+{% if get_data_of_home_page.LinkedIn_Page_Link %}
+<li><a href="{{get_data_of_home_page.LinkedIn_Page_Link}}" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+{% endif %}
+{% if get_data_of_home_page.Twitter_Page_Link %}
+<li><a href="{{get_data_of_home_page.Twitter_Page_Link}}" target="_blank"><i class="fa fa-twitter"></i></a></li>
+{% endif %}
+{% if get_data_of_home_page.Instagram_Page_Link %}
+<li><a href="{{get_data_of_home_page.Instagram_Page_Link}}" target="_blank"><i class="fa fa-instagram"></i></a></li>
+{% endif %}
+
+
+
+{% else %}
+{% if get_data_of_home_page.Facebook_Page_Link %}
+<a href="{{get_data_of_home_page.Facebook_Page_Link}}" target="_blank"><i class="fa fa-facebook"></i></a>
+{% endif %}
+{% if get_data_of_home_page.LinkedIn_Page_Link %}
+<a href="{{get_data_of_home_page.LinkedIn_Page_Link}}" target="_blank"><i class="fa fa-linkedin"></i></a>
+{% endif %}
+{% if get_data_of_home_page.Twitter_Page_Link %}
+<a href="{{get_data_of_home_page.Twitter_Page_Link}}" target="_blank"><i class="fa fa-twitter"></i></a>
+{% endif %}
+{% if get_data_of_home_page.Instagram_Page_Link %}
+<a href="{{get_data_of_home_page.Instagram_Page_Link}}" target="_blank"><i class="fa fa-instagram"></i></a>
+{% endif %}
+{% endif %}

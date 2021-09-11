@@ -1,0 +1,6 @@
+{% load static %}
+{% if get_SystemSettings.Logo %}
+<img src="{{get_SystemSettings.Logo.url}}" class="set_class" style="width: 124px;">
+{% else %}
+Video <span>Submission App</span>
+{% endif %}

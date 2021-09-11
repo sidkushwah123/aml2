@@ -1,0 +1,83 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=euc-jp">
+      <meta name="viewport" content="width=device-width">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="x-apple-disable-message-reformatting">
+      <title>Agile | New Registration</title>
+      <style>html,body{background-color:#fff!important;margin:0 auto !important;padding:0 !important;height:100% !important;width:100% !important;color:#888!important}.email-container{max-width:600px!important;margin:0 auto!important}*{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}div[style*="margin: 16px 0"]{margin:0 !important}table,td{mso-table-lspace:0pt !important;mso-table-rspace:0pt !important}table{width:100%;border-spacing:0 !important;border-collapse:collapse !important;table-layout:fixed !important;margin:0 auto !important}img{-ms-interpolation-mode:bicubic}a{text-decoration:none!important}*[x-apple-data-detectors], .unstyle-auto-detected-links *,.aBn{border-bottom:0 !important;cursor:default !important;color:inherit !important;text-decoration:none !important;font-size:inherit !important;font-weight:inherit !important;line-height:inherit !important}@media only screen and (min-device-width: 320px) and (max-device-width: 374px){u ~ div .email-container{min-width:320px !important}}@media only screen and (min-device-width: 375px) and (max-device-width: 413px){u ~ div .email-container{min-width:375px !important}}@media only screen and (min-device-width: 414px){u ~ div .email-container{min-width:414px !important}}</style>
+   </head>
+   <body>
+      <div class="email-container">
+         <table style="border-bottom: 2px solid #c52241; ">
+            <tr>
+               <td>
+                  <h2 style="color:#c52241; padding-top: 62px; margin-bottom: 0px;">Uploaded a new video</h2>
+               </td>
+               {% if get_system_info.Logo %}
+                 <td> <img src="https://imratedme.com{{get_system_info.Logo.url}}" style="width: 60%; float: right;"></td>
+                 {% else %}
+                 
+                 <td style="color:#c52241; padding-top: 62px; margin-bottom: 0px;"> <h1>{{get_system_info.Project_Title}}</h1></td>
+                 {% endif %} 
+            </tr>
+         </table>
+         <table style="color: #000;font-size: 20px;">
+           
+			<tr>
+               <td style="padding: 10px 0px;">
+              <a href="{{BASE_URL}}videos-detail/{{get_video_info.Videos_id}}/{{get_video_info.Videos_Slug}}"><img src="{{BASE_URL}}{{get_video_info.Video_thumbnail.url}}" style="width:100%; "> </a>
+               </td>
+            </tr>
+            <tr>
+               <td style="padding: 10px 0px;">
+                <table>
+                	<tr>
+                		<td style="width: 10%;"> 
+                           <a href="{{BASE_URL}}videos-detail/{{get_video_info.Videos_id}}/{{get_video_info.Videos_Slug}}">
+                           	{% if get_video_info.Created_By.Image %}
+                           <img class="border-radius" src="{{BASE_URL}}{{get_video_info.Created_By.Image.url}}" style="width:100%; ">
+                           {% else %}
+                           <img class="border-radius" src="{{BASE_URL}}/static/web/images/user-male-icon.png" style="width:100%; ">
+                           {% endif %}
+                       		</a>
+                			 </td>
+                		<td >
+                			<a href="{{BASE_URL}}videos-detail/{{get_video_info.Videos_id}}/{{get_video_info.Videos_Slug}}">
+                			<p style="margin-top: -21px; margin-left: 5px;"><b>{{get_video_info.Videos_Title|slice:"0:20"}}...</b><br><span><u>{{get_video_info.Created_By}}</u></span></p>
+                			</a>
+                		</td>
+                	</tr>
+                </table>
+               </td>
+            </tr>
+            <tr>
+               <td style="padding: 10px 0px;font-size: 11px;">
+               	<hr>You were sent this email because you set as favourite of 'User name'. If you don't want these updates anymore, you can remove  <a href="{{BASE_URL}}videos-detail/{{get_video_info.Videos_id}}/{{get_video_info.Videos_Slug}}">favourite here</a>.</td>
+            </tr>
+         </table>
+         <table style="border-top: 1px solid #000; color: #000; font-size: 20px;">
+            <tr>
+               <td>
+                  <h4>MANAGE Your New Account</h4>
+               </td>
+            </tr>
+            
+            <tr>
+               <td><a href="#"> Get Help with your account </a></td>
+            </tr>
+            <tr>
+               <td style="font-weight: bold; padding-top: 30px;">Thank you for Joining!</td>
+            </tr>
+            <tr>
+               <td style="font-weight: bold;padding-bottom: 30px;">The {{get_system_info.Project_Title}}
+            </tr>
+         </table>
+         <table style="background-color: #f2f2f2; font-size: 20px;">
+            <tr>
+               <td style="padding: 35px 30px; text-align: center;">Clear Apple Group Atlanta, GA</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

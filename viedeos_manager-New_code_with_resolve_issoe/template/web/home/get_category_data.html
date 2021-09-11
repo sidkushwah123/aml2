@@ -1,0 +1,15 @@
+{% load static %}
+<div class="col-md-4">
+<a href="{% url 'search:search' %}?category={{category_data.Slug}}" target="_blank">
+<div class="tablebox">
+<img src='{% if category_data.Image %}{{category_data.Image.url}}{% else %}{% static "web/images/a-1.png" %}{% endif %}'  alt=""/>
+<div class="actingbox">
+<h4>{{category_data|get_total_video_count}}+</h4>
+<p>{{category_data}}</p>
+</div>
+<div class="checkrught">
+<img src='{% static "web/images/right.png" %}'  alt="" />
+</div>
+</div>
+</a>
+</div>

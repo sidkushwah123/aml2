@@ -1,0 +1,559 @@
+{% extends 'web/base_template.html' %}
+   {% block cssstyle %}
+    <!-- Docs styles -->
+ <link href="https://vjs.zencdn.net/7.7.6/video-js.css" rel="stylesheet" />
+
+<style type="text/css">
+  
+.scrollbar
+{
+ 
+  float: left;
+  height: 237px;
+  width: 237px;
+  overflow-y: scroll;
+}
+
+.force-overflow
+{
+  min-height: 211px;
+}
+
+#wrapper
+{
+  text-align: center;
+  width: 100%;
+  margin: auto;
+  display: table;
+}
+
+
+
+/*
+ *  STYLE 7
+ */
+
+#style-7::-webkit-scrollbar-track
+{
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  background-color: #F5F5F5;
+  border-radius: 10px;
+}
+
+#style-7::-webkit-scrollbar
+{
+  width: 10px;
+  background-color: #F5F5F5;
+}
+
+#style-7::-webkit-scrollbar-thumb
+{
+  border-radius: 10px;
+  background:#48c5b5;
+}
+
+
+</style>
+
+   {% endblock %}
+
+{% block content %}
+{% load static %}
+
+<div class="our-collection">
+<div class="container">
+    <div class="d-flex" style="
+    justify-content: space-between;
+">
+<h1><span>{{object.Videos_Title}}</span></h1>
+<div class="short-list"><a href="{{object.Created_By.Site_Link}}" target="_blank">{{object.Created_By}}{% if object.Created_By.Other_Type %}
+  <sup style="
+    color: red;">({{object.Created_By.Other_Type}})</sup>
+   {% endif %}</a></div>
+</div>
+</div>
+
+</div>
+
+
+<section class="drak-gray" style="padding-bottom:25px;">
+<div class="container">
+<div class="row">
+<div class="col-md-9">
+
+
+
+<video
+    id="my-video"
+    class="video-js vjs-big-play-centered"
+    controls
+    {% if object.Video_thumbnail %}
+    poster='{{object.Video_thumbnail.url}}' 
+    {% else %}
+     poster='http://127.0.0.1:8000/media/deepak_patel/videos/2020/5/16/thumbnail/16_5_2020_118463.png' 
+    {% endif %}
+    data-setup="{}"
+  >
+    <source src="{{object.Video.url}}" type="video/mp4" />
+    <p class="vjs-no-js">
+      To view this video please enable JavaScript, and consider upgrading to a
+      web browser that
+      <a href="https://videojs.com/html5-video-support/" target="_blank"
+        >supports HTML5 video</a
+      >
+    </p>
+  </video>
+
+
+</div>
+
+<div class="col-md-3">
+<div class="detail-right">
+
+
+
+<div class="votebox-de">
+  <input type="hidden" name="" id="videos_id" value="{{object.Videos_id}}">
+<a href="#showform" class="active scrollTo"><i class="fa fa-thumbs-o-up"></i> Rate Now</a>
+{% if user.username == ""  %}
+<a href="{% url 'account:login' %}" class=""  ><i class="fa fa-heart"></i> Add to Favorite</a>
+{% else %}
+  
+  {% if user.id == object.Created_By.user.id %}
+<a href="#" class="uoloaded_by_you"><i class="fa fa-heart"></i> Add to Favorite</a>
+
+  {% else %}
+
+<a href="#" class="add_remove_favourite"  data-check_in_favi_list="{% url 'favourite_videos:check_favirate' object.Videos_id  %}" data-url="{% url 'favourite_videos:update_favirate' object.Videos_id  %}" data-conmirm_message="Do you want to add this video in your favourite list." data-after_message="Video add successfully." data-cancel_message="Video not add." ><i class="fa fa-heart"></i> Add to Favorite</a>
+    {% endif %}
+
+
+{% endif %}
+</div>
+
+
+
+
+
+
+<div class="fromvideo">
+<h3>More From {{object.Created_By|slice:"0:10"}}</h3>
+
+
+<div id="wrapper">
+    <div class="scrollbar" id="style-7">
+      <div class="force-overflow">
+{% if get_all_video %}
+
+        <ul style="text-align: left;">
+      
+{% for item in get_all_video %}
+      <li>
+      	<a href="{% url 'videos_detail:videos_detail' item.Videos_id  item.Videos_Slug %}">
+<div class="ply-video">
+
+<img src='{{item.Video_thumbnail.url}}'  />
+<i class="fa fa-play-circle"></i>
+
+</div>
+</a>
+<div class="ply-text">
+  <a href="{% url 'videos_detail:videos_detail' item.Videos_id  item.Videos_Slug %}">
+<p>{{item.Videos_Title|slice:"0:10"}}<br/>BY <span>{{item.Created_By|slice:"0:10"}}</span><br/>{{item.Created_date}}</p>
+</a>
+</div>
+
+</li>
+{% endfor %}
+
+</ul>
+{% endif %}
+
+
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+</div>
+
+
+</div>
+</div>
+
+
+</div>
+
+<div class="votedisc">
+<div class="row">
+<div class="col-md-9">{{object.Description | safe  }}
+</div>
+<div class="col-md-3">
+<div class="texrde">
+<h3>{{object.Views}} View</h3>
+<p>Category:<span>{{object.Categoryes}}</span></p>
+<p>Uploaded By:<span class="bold">{{object.Created_date}}</span></p>
+</div>
+</div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+{% if user.username == object.Created_By.user.username %}
+<div class="voterlist">
+<div class="header-voted">
+<div class="usern">
+<h4>Votes</h4> <h5>{{total_botes}} {% if total_botes < 1 %} User {% else %} Users {% endif %} </h5>
+</div>
+
+<!-- {{total_rating}} -->
+<div class="view_votes">
+<span>{{total_botes}} Review</span>
+<a class="ava">Overall: {{object|get_average_of_reating|floatformat:2}}</a>
+</div>
+
+</div>
+
+
+{% if botes %}
+
+<div class="usercommentbox">
+<div class="borderbox">
+<div class="header-voted bolder">
+<div class="usern" style="align-items: end;">
+<div class="macik"><h1>Overall</h1>
+</div>
+</div>
+<div class="view_votes">
+<div class="text-center">
+{% for item in get_reating.Readint_attribute.all %}
+   <div class="vote-uservbox">
+        <div class="progressbar">
+            <div class="second circle" data-percent="{% get_overall_of_attribute item object %}"><canvas class="ca" width="{% get_overall_of_attribute item object %}" height=""></canvas>
+              <strong>{% get_overall_of_attribute item object %}</strong>
+              <span>{{item.Title}}</span>
+            </div>
+            </div>
+    </div> 
+   {% endfor %}
+<div class="vote-uservbox">
+        <div class="progressbar">
+            <div class="second circle" data-percent="{% get_one_video_overview_of_overview object %}"><canvas class="ca" width="{% get_one_video_overview_of_overview object %}" height=""></canvas>
+              <strong> {% get_one_video_overview_of_overview object %} </strong>
+              <span> <b>Overall</b> </span>
+            </div>
+            </div>
+    </div> 
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+{% for item in botes %}
+
+{% get_votes_data item object %}
+
+<!-- ==================================== -->
+{% endfor %}
+{% endif %}
+</div>
+
+{% endif %}
+
+
+
+
+
+
+
+
+</div>
+
+
+<div class="our-collection rate_bg" id="showform">
+<div class="container">
+    <div class="d-flex" style="
+    justify-content: space-between;
+">
+<h1><span>Rate Now</span></h1>
+{% if user.username == object.Created_By.user.username %}
+<!--<div class="short-list overall">Overall <div class="progressbar">
+            <div class="second circle" data-percent="{{object|get_average_of_reating|get_value_in_ten_time}}">
+              <strong></strong>
+             
+            </div>
+            </div></div>-->
+            {% endif %}
+
+</div>
+</div>
+
+</div>
+
+
+
+</section>
+
+
+<section class="modling">
+<div class="container">
+
+<form action="" id="submit_reating" method="POST">
+  {% csrf_token %}
+  <input type="hidden" name="send_url" id="send_url" value="{% url 'videos_detail:videos_detail' object.Videos_id  object.Videos_Slug %}">
+  <input type="hidden" name="user" value="{{user}}">
+  <input type="hidden" name="videos_id" value="{{object.Videos_id}}">
+{% if get_reating %}
+{% for item in get_reating.Readint_attribute.all %}
+
+<div class="posture">
+<div class="text1">{{item}}</div>
+<div class="text2">
+<div class="range-slider">
+<span class="calone">1</span>
+  <input type="hidden" name="range_name" value="{{item.id}}">
+  <input class="range-slider__range get_range" data-circal="set_circal_{{item.id}}" name="range_{{item.id}}" type="range" value="1" min="1" max="{{item.Reating_Range}}">
+  <span class="range-slider__value">1</span>
+</div>
+</div>
+<div class="text3">
+<div class="progressbar">
+            <div class="second circle" id="set_circal_{{item.id}}" data-percent="10">
+              <strong></strong>
+             
+            </div>
+            </div>
+</div>
+</div>
+{% endfor %}
+{% endif %}
+
+
+<div class="commentbox">
+<h2>special Message</h2>
+
+<div class="comment_new">
+<div class="userimg">
+
+  {% if user.username == "" %}
+  {{"menu"|show_logo}}
+  {% else %}
+<img src='{{user|ger_user_image}}' />
+{% endif %}
+
+</div>
+
+<div class="commenttext">
+<div class="form-group">
+<textarea class="form-control" name="comments" ></textarea>
+</div>
+<div class="form-group btn_comment btn_box">
+
+  {% if user.username == "" %}
+ <a href="{% url 'account:login' %}"> <button type="button">Submit</button></a>
+{% else %}
+<button type="Submit">Submit</button>
+{% endif %}
+</div>
+
+
+
+
+</div>
+</div>
+</div>
+</form>
+
+
+
+</div>
+</section>
+
+
+
+
+<input type="hidden" id="update_views_url" value="{% url 'videos:update_views' object.Videos_id  %}">
+
+	{% endblock %}
+  {% block script %}
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+<script src="https://vjs.zencdn.net/7.7.6/video.js"></script>
+
+<script type="text/javascript">
+
+
+$(document).on('change','.get_range',function(){
+ var get_id = $(this).data('circal');
+ $("#"+get_id).data('percent',$(this).val()*10);
+
+ var restaurant = document.getElementById(get_id);
+
+var percent = restaurant.dataset['percent'];
+restaurant.dataset['percent'] = $(this).val()*10;
+
+});
+
+
+
+$(document).on("click",".vjs-big-play-button",function(){
+var videos_id = $("#videos_id").val();
+console.log(videos_id); 
+   $.ajax({
+     method:"GET",
+     url:$("#update_views_url").val(),
+     dataTyep:"JSON",
+     success:function(data){
+       if(data=="break")
+       {
+        var video = document.querySelector('video');
+        video.pause();
+                swal("You have to do login for watch more videos.", {
+                  icon: "error",
+                    })
+                  .then((value) => {
+                   location.reload();
+                  });
+       }
+     }
+   })
+});
+
+$(document).on("submit","#submit_reating",function(event){
+ event.preventDefault();
+   $(".se-pre-con").css("display","block");
+    var get_url = $("#send_url").val();
+    $.ajax({
+              method:"POST",
+               url:get_url,
+               data:$('#submit_reating').serializeArray(),
+               dataTyep:"html",
+               success:function(data){
+                  $(".se-pre-con").css("display","none");
+        
+
+                  swal(data.message, {
+                  icon: "success",
+                    })
+                  .then((value) => {
+                   location.reload();
+                  });
+
+
+             
+           
+               }
+      });
+});
+
+
+
+function check_in_fav_list(){
+  var get_check_url = $(".add_remove_favourite").data("check_in_favi_list");
+
+
+$.ajax({
+      methid:"GET",
+      url:get_check_url,
+      dataType:"JSON",
+      success:function(data)
+      {
+        if(data.status=="1")
+        {
+          $(".add_remove_favourite").attr("data-conmirm_message","Do you want to remove this video in your favorite list.")
+          $(".add_remove_favourite").attr("data-cancel_message","Video not removed.")
+              $(".add_remove_favourite").html('<i class="fa fa-heart"></i> Remove From Favorite');
+        }
+        else
+        {
+          $(".add_remove_favourite").attr("data-conmirm_message","Do you want to add this video in your favorite list.")
+          $(".add_remove_favourite").attr("data-cancel_message","Video not add.")
+           $(".add_remove_favourite").html('<i class="fa fa-heart"></i> Add to Favorite');
+        }
+      }
+   });
+}
+
+
+$(document).ready(function(){
+
+check_in_fav_list();
+
+});
+
+
+
+$(document).on("click",".uoloaded_by_you",function(){
+
+swal("This video is uploaded by you. so you can not add in your Favorite list.");
+
+});
+
+
+$(document).on("click",".add_remove_favourite",function(){
+
+var conmirm_message = $(this).data("conmirm_message");
+var after_message = $(this).data("after_message");
+var cancel_message = $(this).data("cancel_message");
+var url = $(this).data("url");
+  swal({
+  title: "Are you sure?",
+  text: conmirm_message,
+  icon: "warning",
+  buttons: true,
+  dangerMode: true,
+})
+.then((willDelete) => {
+  if (willDelete) {
+
+   $.ajax({
+      methid:"GET",
+      url:url,
+      dataType:"JSON",
+      success:function(data)
+      {
+        swal(data.message, {
+            icon: "success",
+          }).then((value) => {
+                   location.reload();
+                  });
+        check_in_fav_list();
+      }
+   });
+
+  
+  } else {
+    swal(cancel_message);
+  }
+});
+
+});
+
+
+  var player  = videojs("my-video",{
+    fluid:true,
+    aspectRation:'4:3',
+    playbackRates: [0.25,0.5,1,1.5,2],
+    loop:true,
+    userActions:{
+      hotkeys:true
+    }
+  });
+// $(document).on("click",".vjs-icon-placeholder",function(){
+//    alert("sdkdnvjfd");
+// });
+</script>
+{% endblock %}

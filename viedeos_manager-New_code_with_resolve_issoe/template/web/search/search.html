@@ -1,0 +1,280 @@
+{% extends 'web/base_template.html' %}
+{% load static %}
+
+{% block cssstyle %}
+<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+<style type="text/css">
+  .set_clas_for_category_set a {
+    /* background: #48c5b5; */
+    color: #48c5b5 !important;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+
+<div class="our-collection">
+<div class="container">
+    <div class="d-flex" style="
+    justify-content: space-between;
+">
+{% if page_obj.paginator.count == 0 %}
+<h1>No result found for "{% if search_cate or search_sub_sate or keyword %} <span>{{search_cate}}</span> <span>{{search_sub_sate}}</span>  <span>{{keyword}}</span> {% else %} result found for "<span>All</span>  {% endif %}"
+<br/>
+<a href="#search" class="searcbm">Search again</a>
+</h1>
+{% else %}
+<h1>{{ page_obj.paginator.count }} {% if search_cate or search_sub_sate or keyword %} result found for "<span>{{search_cate}}</span> <span>{{search_sub_sate}}</span>  <span>{{keyword}}</span> {% else %} result found for "<span>All</span>  {% endif %}" <br/>
+<a href="#search" class="searcbm">Search again</a>
+</h1>
+{% endif %}
+<div class="short-list">
+Sort: <div class="select-custom">
+    <select name="orderby" class="form-control" id="do_shorting">
+                  <option value="">Sorting</option>
+                  {% for key,value_get in shorting_content.items %}
+                   {% if key == shorting %}
+                    <option value="{{key}}" selected="selected">{{value_get}}</option>
+                    {% else %}
+                     <option value="{{key}}">{{value_get}}</option>
+                    {% endif %}
+                  {% endfor %}
+               </select>
+              </div>
+        </div>
+</div>
+</div>
+
+</div>
+
+<section class="drak-gray">
+<div class="container">
+<div class="category_fillter">
+
+ 
+      
+</div>
+<div class="row">
+<div class="col-md-3">
+<div class="cat">
+<h3>Filter</h3>
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    {% if category %} 
+    <div class="panel panel-default">
+      <div class="panel-heading" role="tab" id="headingOne">
+        <h4 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          Category 
+        </a>
+      </h4>
+      </div>
+      <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+        <div class="panel-body">
+          <ul id="accordion" class="accordion">
+
+ {% for items in  category %}
+{% get_sub_catogory items search_cate search_sub_sate %}
+  {% endfor %}
+
+
+</ul>
+
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+
+    
+  </div>
+</div>
+</div>
+
+<div class="col-md-9">
+<div class="fillterbox">
+<div class="tab-content">
+ <div class="tab-pane active" id="tab_default_1">
+<div class="row infinite-container">
+{% if object_list %}
+{% for item in object_list %}
+
+
+<div class="col-md-4">
+<!-- <div class="starbox"><i class="fa fa-star"></i>{{item|get_average_of_reating|slice:"0:10"}}</div> -->
+<div class="product_box">
+<a href="{% url 'videos_detail:videos_detail' item.Videos_id  item.Videos_Slug %}" target="_blank">
+<div class="cat_box">
+
+{% if item.Video_thumbnail %}
+<img src='{{item.Video_thumbnail.url}}' >
+{% else %}
+<img src='{% static "web/images/singer-2.png" %}' >
+{% endif %}
+
+</div>
+<div class="cat-text">
+<div class="singer_btn">
+<span>{{item.Categoryes.Title|slice:"0:8"}}</span>
+</div>
+<h4>{{item.Videos_Title|slice:"0:40"}} By {{item.Created_By.name|slice:"0:8"}}
+ {% if item.Created_By.Other_Type %}
+  <sup style="
+    color: red;"><a href="{{item.Created_By.Site_Link}}" target="_blank">({{item.Created_By.Other_Type}})</a></sup>
+{% endif %}
+  </h4>
+
+<p>{{item.Created_date}}</p>
+</div>
+
+</a>
+</div>
+
+</div>
+
+
+{% endfor %}
+{% else %}
+<img src='{% static "web/No-results-found.jpg" %}' >
+{% endif %}
+
+
+
+
+
+
+</div>
+
+{% if is_paginated %}
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+    <li class="page-item "><a class="page-link active" href="?{% if search_cate %}category={{search_cate}}&{% endif %}{% if search_sub_sate %}sub-categorye={{search_sub_sate}}&{% endif %}{% if shorting %}shorting={{shorting}}&{% endif %}{% if keyword %}keyword={{keyword}}&{% endif %}page={{page_obj.previous_page_number}}"><</a></li>
+    {% else %}
+    <li class="page-item "><a class="page-link active" href="#"><</a></li>
+    {% endif %}
+
+    {% for page_no in paginator.page_range %}
+      {% if page_obj.number == page_no %}
+      <li class="page-item active"><a class="page-link" href="#">{{page_no}}</a></li>
+      {% else %}
+      <li class="page-item"><a class="page-link" href="?{% if search_cate %}category={{search_cate}}&{% endif %}{% if search_sub_sate %}sub-categorye={{search_sub_sate}}&{% endif %}{% if shorting %}shorting={{shorting}}&{% endif %}{% if keyword %}keyword={{keyword}}&{% endif %}page={{page_no}}">{{page_no}}</a></li>
+      {% endif %}
+    {% endfor %}
+
+
+    {% if page_obj.has_next %}
+    <li class="page-item "><a class="page-link active" href="?{% if search_cate %}category={{search_cate}}&{% endif %}{% if search_sub_sate %}sub-categorye={search_sub_sate}}&{% endif %}{% if shorting %}shorting={{shorting}}&{% endif %}{% if keyword %}keyword={{keyword}}&{% endif %}page={{page_obj.next_page_number}}">></a></li>
+    {% else %}
+    <li class="page-item "><a class="page-link active" href="#">></a></li>
+    {% endif %}
+    
+  
+  </ul>
+</nav>
+{% endif %}
+
+<!-- ========================= -->
+<!-- <div class="infinite-container">
+    {% for number in paginator.page_range %}
+      <div class="infinite-item">{{ number }}</div>
+    {% endfor %}
+  </div> -->
+
+   {% if page_obj.has_next %}
+    <a class="infinite-more-link" href="?{% if search_cate %}category={{search_cate}}&{% endif %}{% if search_sub_sate %}sub-categorye={search_sub_sate}}&{% endif %}{% if shorting %}shorting={{shorting}}&{% endif %}{% if keyword %}keyword={{keyword}}&{% endif %}page={{page_obj.next_page_number}}">More</a>
+  {% endif %}
+
+<div class="loading" style="display: none;">
+    Loading...
+  </div>
+
+
+
+
+<!-- ========================= -->
+
+
+
+
+              
+              </div>
+            <div class="tab-pane" id="tab_default_2">
+              <div>
+              <h1>Coming Soon</h1>
+              </div>
+
+            </div>
+            <div class="tab-pane" id="tab_default_3">
+              <div>
+              <h1>Coming Soon</h1>
+              </div>
+
+            </div>
+           <div class="tab-pane" id="tab_default_4">
+              <div>
+              <h1>Coming Soon</h1>
+              </div>
+
+            </div>
+            <div class="tab-pane" id="tab_default_5">
+              <div>
+              <h1>Coming Soon</h1>
+              </div>
+
+            </div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+</section>
+
+
+{% endblock %}
+{% block script %}
+<script src="{% static 'web/js/jquery.waypoints.min.js' %}"></script>
+<script src="{% static 'web/js/infinite.min.js' %}"></script>
+
+<script>
+    var infinite = new Waypoint.Infinite({
+        element: $('.infinite-container')[0],
+        handler: function(direction) {
+
+    },
+    offset: 'bottom-in-view',
+
+    onBeforePageLoad: function () {
+    $('.spinner-border').show();
+    },
+    onAfterPageLoad: function () {
+    $('.spinner-border').hide();
+    }
+
+    });
+
+    </script>
+
+<script type="text/javascript">
+  $(document).on("change","#do_shorting",function(){
+var get_val = $("#do_shorting").val();
+if(get_val == "")
+{
+ window.location.href = "{% url 'search:search' %}";
+}
+else
+{
+  window.location.href = "{% url 'search:search' %}?{% if search_cate %}category={{search_cate}}&{% endif %}{% if search_sub_sate %}sub-categorye={{search_sub_sate}}&{% endif %}{% if keyword %}keyword={{keyword}}&{% endif %}shorting="+get_val;
+}
+  
+
+  });
+</script>
+
+
+
+{% endblock %}

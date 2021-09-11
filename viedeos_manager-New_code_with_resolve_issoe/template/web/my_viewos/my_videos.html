@@ -1,0 +1,218 @@
+{% extends 'web/base_template.html' %}
+
+
+  {% block cssstyle %}
+<style type="text/css">
+    @media (min-width: 992px){
+.product_box {
+    height: auto;
+}
+}
+</style>
+   {% endblock %}
+
+
+{% block content %}
+{% load static %}
+<div class="our-collection">
+<div class="container">
+    <div class="d-flex" style="
+    justify-content: space-between;
+">
+<h1>MY VIDEOS</h1>
+<div class="short-list">
+Select Category  : <div class="select-custom">
+    <select name="orderby" id="search_by_category" class="form-control">
+                 
+                <option value="{% url 'my_videos:my_videos'%}" >All</option>
+                 {% if Category %}
+                 {% for item in Category %}
+                  {% if type == item.Slug %} 
+                        <option value="{% url 'my_videos:my_videos' item.Slug %}" selected="selected"   >{{item.Title}}</option>
+                  {% else %}      
+                   <option value="{% url 'my_videos:my_videos' item.Slug %}"  >{{item.Title}}</option>
+                   {% endif %}          
+
+                 {% endfor %}
+                 {% endif %} 
+                </select>
+                                    </div>
+        </div>
+</div>
+</div>
+
+</div>
+
+
+
+<section class="light-gray design-process-section" id="process-tab">
+<div class="container">
+
+
+<div class="row">
+{% if object_list.filter %}
+{% for item in object_list.filter %}
+<div class="col-md-4">
+  <div class="starbox"><i class="fa fa-star"></i>{{item|get_average_of_reating|slice:"0:10"}}</div>
+<div class="product_box">
+<div class="cat_box">
+<a href="{% url 'videos_detail:videos_detail' item.Videos_id  item.Videos_Slug %}"  target="_blank">
+{% if item.Video_thumbnail %}
+<img src='{{item.Video_thumbnail.url}}' >
+{% else %}
+<img src='{% static "web/images/singer-2.png" %}' >
+{% endif %}
+</a>
+</div>
+
+<div class="cat-text">
+<div class="singer_btn">
+<span>{{item.Categoryes.Title|slice:"0:8"}}</span>
+</div>
+<h4>{{item.Videos_Title|slice:"0:50"}} <br>By {{item.Created_By.name|slice:"0:8"}}{% if item.Created_By.Other_Type %}
+  <sup style="
+    color: red;"><a href="{{item.Created_By.Site_Link}}" target="_blank">({{item.Created_By.Other_Type}})</a></sup>
+{% endif %}</h4>
+
+<p>{{item.Created_date}}  </p>
+<a href="javascriptr:;" class="delete_video" data-video_id="{{item.Videos_id}}" data-cancel_message="Video is not removed." data-conformation="Do you want to delete this video ?"  data-url='{% url "my_videos:remove_video" item.Videos_id %}'>Remove</a>
+</div>
+</div>
+
+
+</div>
+{% endfor %}
+{% endif %}
+
+
+{% if  count < system_upload_limit %}
+<div class="col-md-4">
+<div class="upload_imgbox">
+<div class="upbtn">
+<div class="plushb">
+<i class="fa fa-plus"></i>
+</div>
+
+<a href="{% url 'videos:add_videos' %}"><button><i class="fa fa-upload"></i> Upload Videos</button></a>
+
+
+
+<p>Video Size Max 100 MB.</p>
+
+</div>
+</div>
+</div>
+
+{% endif %}
+
+
+</div>
+
+<!-- ======================================================== -->
+    </div>
+
+
+</section>
+
+<!-- ======================================================================================== -->
+{% if my_fave %}
+<div class="our-collection">
+<div class="container">
+    <div class="d-flex" style="
+    justify-content: space-between;
+">
+
+<h1>VOTED VIDEOS</h1>
+
+
+</div>
+</div>
+
+</div>
+
+
+<section class="light-gray design-process-section" id="process-tab">
+<div class="container">
+
+
+
+<div class="row">
+{% for item in my_fave %}
+
+{% if item.Video.id %}
+{{item.Video.id|get_vote_video}}
+{% endif %}
+
+
+{% endfor %}
+
+
+
+
+
+</div>
+
+
+
+    </div>
+
+
+</section>
+
+{% endif %}
+
+<!-- ==================================================================== -->
+{% endblock %}
+
+
+
+{% block script %}
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script type="text/javascript">
+
+
+$(document).on('click',".delete_video",function(){
+ 
+ var video_id = $(this).data("video_id");
+  var message = $(this).data("conformation");
+  var cnacal = $(this).data("cancel_message");
+    var url = $(this).data("url");
+  swal({
+  title: "Are you sure?",
+  text: message,
+  icon: "warning",
+  buttons: true,
+  dangerMode: true,
+})
+.then((willDelete) => {
+  if (willDelete) {
+
+   $.ajax({
+      methid:"GET",
+      url:url,
+      dataType:"JSON",
+      success:function(data)
+      {
+        swal(data.status, {
+            icon: "success",
+          }).then((value) => {
+                   location.reload();
+                  });
+      }
+   });
+
+  
+  } else {
+    swal(cnacal);
+  }
+});
+
+});
+
+    $(document).ready(function(){
+      $("#search_by_category").change(function(){
+        window.location.href = $(this).val();
+    });
+    });
+</script>
+{% endblock %}

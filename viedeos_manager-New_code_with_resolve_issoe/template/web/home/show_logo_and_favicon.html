@@ -1,0 +1,3 @@
+{% load static %}
+<title>{{get_SystemSettings.Project_Title}}</title>
+  <link rel="icon" type="image/x-icon" href='{% if get_SystemSettings.Favicon_Icon %}{{get_SystemSettings.Favicon_Icon.url}}{% else %}{% static "web/images/loader3.gif" %}{% endif %}'>

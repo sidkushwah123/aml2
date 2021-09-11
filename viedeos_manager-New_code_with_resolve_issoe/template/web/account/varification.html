@@ -1,0 +1,105 @@
+{% extends 'web/base_template.html' %}
+{% block content %}
+{% load static %}
+
+<section class="login_bg">
+<div class="loginAG">
+<div class="login_width">
+<div class="leftside-login">
+	  {% if messages %}
+    {% for message in messages %}
+        
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <div class="alert alert-danger alert-dismissible" style="text-align: left;">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+                   {% else %}
+                    <div class="alert alert-success alert-dismissible" style="text-align: left;">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+                     {% endif %}
+      
+    {% endfor %}
+    {% endif %}
+
+<span>
+{{"menu"|show_logo}}
+</span>
+<div class="login-logo">
+<h1><a href="{% url 'home:home' %}">{{"menu"|show_project_title}}</span></a></h1>
+</div>
+</div>
+
+<div class="rightside otp">
+{% if user_info %}
+
+<h1>Please Enter the OTP to verify your Account</h1>
+<p>Enter "OTP" Sent to:{{user_info.user.email|slice:"0:5"}}XXXXXXXXXX</p>
+<div class="otpbox">
+	<form  onsubmit="doSomething();" method="POST" action="{% url 'account:varification' user_info.user_code  %}">
+			{% csrf_token %}
+<input type="hidden" name="user_id" value="{{user_info.id}}">		
+<input type="hidden" name="user_code" value="{{user_info.user_code}}">		
+<input type="text" size="1" onkeyup="movetoNext(this, 'second')" id="first" maxlength="1" name="code_1"  required="" min="0" max="9" placeholder="X"/> 
+<input type="text" name="code_2"required="" min="0" max="9" id="second" placeholder="X" size="1" onkeyup="movetoNext(this, 'third','first')" maxlength="1"/>
+<input type="text" name="code_3" required=""  min="0" max="9" id="third" placeholder="X" size="1" onkeyup="movetoNext(this, 'fourth','second')" maxlength="1"/>
+<input type="text" name="code_4" required="" min="0" max="9" id="fourth" placeholder="X" size="1" onkeyup="movetoNext(this, '','third')" maxlength="1"/>
+      <button type="submit" class="btn-embossed">Verify</button>
+   </form>
+    </div>
+
+
+<div class="resend text-center">
+    
+      <a href="#" class="send_otp_again"  data-url="{% url 'account:send_otp' user_info.id %}"><u>Send code again</u></a><br />
+    
+    </div>
+{% else %}
+<div class="alert alert-danger alert-dismissible" style="text-align: left;">
+                      
+                      <strong><h1>User Code is invalidate.</h1></strong> 
+                    </div>
+
+{% endif %}
+</div>
+
+</div>
+</div>
+</section>
+
+
+
+{% endblock %}
+
+  {% block script %}
+  <script type="text/javascript">
+  	$(document).on("click",".send_otp_again",function(){
+
+var get_url = $(this).data("url");
+    $(".se-pre-con").css("display","block");
+    $.ajax({
+    	method:"GET",
+    	url:get_url,
+    	dataType:"html",
+    	success:function(data)
+    	{
+    		location.reload();
+    	}
+    	});
+  	});
+  </script>
+ 
+ <script type="text/javascript">
+function movetoNext(current, nextFieldID,privesFieldId) {
+if (current.value.length >= current.maxLength) {
+document.getElementById(nextFieldID).focus();
+}
+if (current.value.length == 0) {
+document.getElementById(privesFieldId).focus();
+}
+
+}
+</script>
+  {% endblock %}
